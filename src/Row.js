@@ -1,34 +1,38 @@
-import React, {useState, useEffect} from 'react';
-import axios from './axios';
+import React, { useState, useEffect } from "react";
+import axios from "./axios";
+import "./Row.css";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
-export default function Row({title, fetchURL}) {
-    const [movies, setMovies] = useState([]);
+export default function Row({ title, fetchURL }) {
+  const [movies, setMovies] = useState([]);
 
-    // A snippet of code which runs based on a specific confition/variable
-    useEffect(() => {           // when the title shows, we want to show the images of the shows
-        // if [], run once when the row loads, and dont run again
-        async function fetchData() {
-            
-            const request = await axios.get(fetchURL);
-            setMovies(request.data.results);
-            return request;
-        }
-        fetchData();
-    }, [fetchURL]);     // whenever we use a variable outside of the block we put it here "fetchURL"
+  // A snippet of code which runs based on a specific confition/variable
+  useEffect(() => {
+    // when the title shows, we want to show the images of the shows
+    // if [], run once when the row loads, and dont run again
+    async function fetchData() {
+      const request = await axios.get(fetchURL);
+      setMovies(request.data.results);
+      return request;
+    }
+    fetchData();
+  }, [fetchURL]); // whenever we use a variable outside of the block we put it here "fetchURL"
 
-    console.log(movies);
+  console.log(movies);
 
-    return (
-        <div className="row">
-
-            <h2>{title}</h2>
-            <div className="row_posters">
-                {movies.map(movie => (
-                    <img src={`${base_url}${movie.poster_path}`} alt={movie.name}/>
-                ))}
-            </div>
-            {/* */}
-        </div>
-    )
+  return (
+    <div className="row">
+      <h2>{title}</h2>
+      <div className="row__posters">
+        {movies.map((movie) => (
+          <img
+            className="row__poster"
+            src={`${base_url}${movie.poster_path}`}
+            alt={movie.name}
+          />
+        ))}
+      </div>
+      {/* */}
+    </div>
+  );
 }
